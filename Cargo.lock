@@ -768,6 +768,7 @@ version = "0.1.0"
 dependencies = [
  "async-std",
  "sea-orm",
+ "sea-orm-macros",
  "sea-orm-migration",
 ]
 
@@ -1076,6 +1077,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "handlers"
+version = "0.1.0"
+dependencies = [
+ "async-std",
+ "sea-orm-migration",
+ "serde",
+]
+
+[[package]]
 name = "hashbrown"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1350,10 +1360,8 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "dotenv",
- "entity",
  "env_logger",
  "hyper",
- "migration",
  "sea-orm",
  "serde",
  "serde_json",

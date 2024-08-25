@@ -1,17 +1,16 @@
 [package]
-name = "entity"
+name = "handlers"
 version = "0.1.0"
 edition = "2021"
 publish = false
 
 [lib]
-name = "entity"
-path = "src/lib.rs"
+name = "handlers"
+path = "src/mod.rs"
 
 [dependencies]
 async-std = { version = "1", features = ["attributes", "tokio1"] }
-sea-orm = { version = "1.0.0-rc.5", features = ["macros", "runtime-tokio-rustls"] }
-sea-orm-macros = "1.0.0"
+serde = { version = "1.0", features = ["derive"] }
 
 
 [dependencies.sea-orm-migration]

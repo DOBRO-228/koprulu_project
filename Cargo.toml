@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = [".", "entity", "migration"]
+members = [".", "entity", "migration", "handlers"]
 
 [dependencies]
 axum = "0.7.5"
@@ -19,5 +19,5 @@ tower = "0.5.0"
 tower-http = { version = "0.5.2", features = ["trace"] }
 env_logger = "0.11.5"
 hyper = "1.4.1"
-entity = { path = "entity" }
-migration = { path = "migration" } # depends on your needs
+#entity = { path = "entity" }
+#migration = { path = "migration" } # depends on your needs

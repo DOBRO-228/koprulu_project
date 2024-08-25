@@ -12,13 +12,13 @@ pub struct Model {
     pub in_deficiency: Option<String>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::hormone::Entity")]
+    #[sea_orm(has_many = "super::HormoneEntity")]
     Hormone,
 }
 
-impl Related<super::hormone::Entity> for Entity {
+impl Related<super::HormoneEntity> for Entity {
     fn to() -> RelationDef {
         Relation::Hormone.def()
     }

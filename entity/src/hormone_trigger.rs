@@ -1,7 +1,5 @@
 use sea_orm::entity::prelude::*;
 
-use sea_orm::entity::prelude::*;
-
 #[derive(Clone, Debug, DeriveEntityModel)]
 #[sea_orm(table_name = "hormone_triggers")]
 pub struct Model {
@@ -11,21 +9,29 @@ pub struct Model {
     pub trigger_id: i32,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(belongs_to = "super::hormone::Entity")]
+    #[sea_orm(
+        belongs_to = "super::HormoneEntity",
+        from = "Column::HormoneId",
+        to = "super::hormone::Column::Id"
+    )]
     Hormone,
-    #[sea_orm(belongs_to = "super::trigger::Entity")]
+    #[sea_orm(
+        belongs_to = "super::TriggerEntity",
+        from = "Column::TriggerId",
+        to = "super::trigger::Column::Id"
+    )]
     Trigger,
 }
 
-impl Related<super::hormone::Entity> for Entity {
+impl Related<super::HormoneEntity> for Entity {
     fn to() -> RelationDef {
         Relation::Hormone.def()
     }
 }
 
-impl Related<super::trigger::Entity> for Entity {
+impl Related<super::TriggerEntity> for Entity {
     fn to() -> RelationDef {
         Relation::Trigger.def()
     }

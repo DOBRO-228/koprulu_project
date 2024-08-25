@@ -8,13 +8,13 @@ pub struct Model {
     pub description: String,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::hormone_trigger::Entity")]
+    #[sea_orm(has_many = "super::HormoneTriggerEntity")]
     HormoneTrigger,
 }
 
-impl Related<super::hormone::Entity> for Entity {
+impl Related<super::HormoneEntity> for Entity {
     fn to() -> RelationDef {
         super::hormone_trigger::Relation::Hormone.def()
     }
