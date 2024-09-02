@@ -1,27 +1,28 @@
-use axum::{routing::get, Router};
+#[macro_use] extern crate rocket;
 use dotenv::dotenv;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 use std::env;
 use std::time::Duration;
 use tower::ServiceBuilder;
 use tower_http::trace::TraceLayer;
+use api::description::create_description_handler;
 
-#[tokio::main]
-async fn main() {
+
+#[get("/")]
+fn index() -> &'static str {
+    "Hello, world!"
+}
+
+#[launch]
+async fn rocket() -> _ {
     dotenv().ok();
     env_logger::init();
     let db = setup_db().await;
 
-    // Your application code here
-    let app = Router::new()
-        .route("/", get(|| async { "Hello, World!" }))
-        .layer(ServiceBuilder::new().layer(TraceLayer::new_for_http()));
-
     // Run the application on port 3000
     let addr: String = "0.0.0.0:3000".parse().unwrap();
     println!("Listening on {}", addr);
-    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+    rocket::build().mount("/", routes![index])
 }
 
 async fn setup_db() -> DatabaseConnection {

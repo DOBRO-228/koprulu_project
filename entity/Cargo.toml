@@ -9,9 +9,11 @@ name = "entity"
 path = "src/lib.rs"
 
 [dependencies]
+axum = "0.7.5"
 async-std = { version = "1", features = ["attributes", "tokio1"] }
 sea-orm = { version = "1.0.0-rc.5", features = ["macros", "runtime-tokio-rustls"] }
 sea-orm-macros = "1.0.0"
+serde = { version = "1.0.207", features = ["derive"] }
 
 
 [dependencies.sea-orm-migration]

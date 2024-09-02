@@ -25,3 +25,7 @@ impl Related<super::HormoneEntity> for Entity {
 }
 
 impl ActiveModelBehavior for ActiveModel {}
+
+impl Model {
+    pub const ENTITY_NAME: &'static str = "Trigger";
+}

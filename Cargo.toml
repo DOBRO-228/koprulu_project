@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = [".", "entity", "migration", "handlers"]
+members = [".", "entity", "migration", "service", "api"]
 
 [dependencies]
-axum = "0.7.5"
+rocket = "0.5.1"
 tokio = { version = "1", features = ["full"] }
 dotenv = "0.15.0"
 sea-orm = { version = "1.0.0-rc.5", features = [ "sqlx-postgres", "runtime-tokio", "macros" ] }
@@ -21,3 +21,4 @@ env_logger = "0.11.5"
 hyper = "1.4.1"
 #entity = { path = "entity" }
 #migration = { path = "migration" } # depends on your needs
+api = { path = "api" }

@@ -52,3 +52,7 @@ impl Related<super::description::Entity> for Entity {
 }
 
 impl ActiveModelBehavior for ActiveModel {}
+
+impl Model {
+    pub const ENTITY_NAME: &'static str = "Hormone";
+}

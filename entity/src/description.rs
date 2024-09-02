@@ -1,9 +1,12 @@
 use sea_orm::entity::prelude::*;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, DeriveEntityModel)]
+#[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel, Serialize, Deserialize)]
+#[serde(crate = "axum::serde")]
 #[sea_orm(table_name = "descriptions")]
 pub struct Model {
     #[sea_orm(primary_key)]
+    #[serde(skip_deserializing)]
     pub id: i32,
     pub description: String,
     pub meta_description: Option<String>,
@@ -25,3 +28,7 @@ impl Related<super::HormoneEntity> for Entity {
 }
 
 impl ActiveModelBehavior for ActiveModel {}
+
+impl Model {
+    pub const ENTITY_NAME: &'static str = "Description";
+}
