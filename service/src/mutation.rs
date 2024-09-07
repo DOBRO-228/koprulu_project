@@ -1,6 +1,6 @@
+use super::query::Query;
 use ::entity::{description, description::Entity as Description};
 use sea_orm::*;
-use super::query::Query;
 
 pub struct Mutation;
 
@@ -17,8 +17,8 @@ impl Mutation {
             in_deficiency: Set(form_data.in_deficiency.to_owned()),
             ..Default::default()
         }
-            .save(db)
-            .await
+        .save(db)
+        .await
     }
 
     pub async fn update_description_by_id(
@@ -36,8 +36,8 @@ impl Mutation {
             in_norm: Set(form_data.in_norm.to_owned()),
             in_deficiency: Set(form_data.in_deficiency.to_owned()),
         }
-            .update(db)
-            .await
+        .update(db)
+        .await
     }
 
     pub async fn delete_entity_by_id<E>(db: &DbConn, id: i32) -> Result<DeleteResult, DbErr>

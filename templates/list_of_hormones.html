@@ -1,0 +1,17 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hormones List</title>
+</head>
+<body>
+<h1>List of Hormones</h1>
+<ul>
+    {% for hormone in hormones %}
+    <li>{{ hormone.name }} - {{ hormone.hormone_type }}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>
