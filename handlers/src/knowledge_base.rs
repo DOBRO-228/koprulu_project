@@ -4,11 +4,10 @@ use axum::response::{Html, IntoResponse};
 use common::app_state::AppState;
 use tera::Context;
 
-pub async fn render_main_page(app_state: State<AppState>) -> impl IntoResponse {
+pub async fn render_knowledge_base_page(app_state: State<AppState>) -> impl IntoResponse {
     // Render the template using the Tera instance from AppState
-    let mut context = Context::new();
-    context.insert("routes", &app_state.routes);
-    match app_state.templates.render("main_page.html", &context) {
+    let context = Context::new();
+    match app_state.templates.render("knowledge_base.html", &context) {
         Ok(rendered_html) => Html(rendered_html).into_response(), // Return the rendered HTML as response
         Err(err) => {
             eprintln!("Template error: {:?}", err); // Log the error for debugging

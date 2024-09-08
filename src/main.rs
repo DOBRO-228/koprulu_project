@@ -1,5 +1,6 @@
 // Your app_state module
-use handlers::main_page::render_main_page; // Import main_page handler from handlers crate
+use handlers::main_page::render_main_page;
+use handlers::knowledge_base::render_knowledge_base_page;
 
 use common::app_state::init_app_state;
 
@@ -20,7 +21,8 @@ async fn main() {
     // Your application code here
     let app = Router::new()
         .nest_service("/static", static_files)
-        .route("/", get(render_main_page)) // Route for home page
+        .route(app_state.routes.main_page, get(render_main_page))
+        .route(app_state.routes.knowledge_base, get(render_knowledge_base_page))
         .layer(ServiceBuilder::new().layer(TraceLayer::new_for_http()))
         .with_state(app_state); // Share the app state (db and templates)
 
