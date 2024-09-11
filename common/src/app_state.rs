@@ -42,7 +42,7 @@ fn setup_template_rendering() -> Tera {
     match Tera::new("templates/**/*.html") {
         Ok(t) => t,
         Err(e) => {
-            println!("Parsing error(s): {}", e);
+            println!("Parsing error(s): {:?}", e);
             ::std::process::exit(1);
         }
     }

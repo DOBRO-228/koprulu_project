@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+axum = "0.7.5"
 sea-orm = { version = "1.0.0-rc.5", features = [ "sqlx-postgres", "runtime-tokio", "macros" ] }
 tera = "1.20.0"
 serde = { version = "1.0.207", features = ["derive"] }
+log = "0.4.22"

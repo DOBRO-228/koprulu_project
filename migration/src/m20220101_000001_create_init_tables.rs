@@ -15,16 +15,16 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Trigger::Table)
+                    .table(Triggers::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Trigger::Id)
+                        ColumnDef::new(Triggers::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Trigger::Description).string().not_null())
+                    .col(ColumnDef::new(Triggers::Description).string().not_null())
                     .to_owned(),
             )
             .await?;
@@ -33,20 +33,20 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Description::Table)
+                    .table(Descriptions::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Description::Id)
+                        ColumnDef::new(Descriptions::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Description::Description).string().not_null())
-                    .col(ColumnDef::new(Description::MetaDescription).string().null())
-                    .col(ColumnDef::new(Description::InExcess).string().null())
-                    .col(ColumnDef::new(Description::InNorm).string().null())
-                    .col(ColumnDef::new(Description::InDeficiency).string().null())
+                    .col(ColumnDef::new(Descriptions::Description).string().not_null())
+                    .col(ColumnDef::new(Descriptions::MetaDescription).string().null())
+                    .col(ColumnDef::new(Descriptions::InExcess).string().null())
+                    .col(ColumnDef::new(Descriptions::InNorm).string().null())
+                    .col(ColumnDef::new(Descriptions::InDeficiency).string().null())
                     .to_owned(),
             )
             .await?;
@@ -54,23 +54,23 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Hormone::Table)
+                    .table(Hormones::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Hormone::Id)
+                        ColumnDef::new(Hormones::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Hormone::Name).string().not_null())
-                    .col(ColumnDef::new(Hormone::HormoneType).string().not_null())
-                    .col(ColumnDef::new(Hormone::DescriptionId).integer().null())
+                    .col(ColumnDef::new(Hormones::Name).string().not_null())
+                    .col(ColumnDef::new(Hormones::HormoneType).string().not_null())
+                    .col(ColumnDef::new(Hormones::DescriptionId).integer().null())
                     .foreign_key(
                         ForeignKey::create()
                             .name("fk-description_id")
-                            .from(Hormone::Table, Hormone::DescriptionId)
-                            .to(Description::Table, Description::Id),
+                            .from(Hormones::Table, Hormones::DescriptionId)
+                            .to(Descriptions::Table, Descriptions::Id),
                     )
                     .to_owned(),
             )
@@ -103,13 +103,13 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("fk-hormone_id")
                             .from(HormoneTrigger::Table, HormoneTrigger::HormoneId)
-                            .to(Hormone::Table, Hormone::Id),
+                            .to(Hormones::Table, Hormones::Id),
                     )
                     .foreign_key(
                         ForeignKey::create()
                             .name("fk-trigger_id")
                             .from(HormoneTrigger::Table, HormoneTrigger::TriggerId)
-                            .to(Trigger::Table, Trigger::Id),
+                            .to(Triggers::Table, Triggers::Id),
                     )
                     .to_owned(),
             )
@@ -121,19 +121,19 @@ impl MigrationTrait for Migration {
             .drop_table(Table::drop().table(HormoneTrigger::Table).to_owned())
             .await?;
         manager
-            .drop_table(Table::drop().table(Hormone::Table).to_owned())
+            .drop_table(Table::drop().table(Hormones::Table).to_owned())
             .await?;
         manager
-            .drop_table(Table::drop().table(Trigger::Table).to_owned())
+            .drop_table(Table::drop().table(Triggers::Table).to_owned())
             .await?;
         manager
-            .drop_table(Table::drop().table(Description::Table).to_owned())
+            .drop_table(Table::drop().table(Descriptions::Table).to_owned())
             .await
     }
 }
 
 #[derive(Iden)]
-enum Hormone {
+enum Hormones {
     Table,
     Id,
     Name,
@@ -142,7 +142,7 @@ enum Hormone {
 }
 
 #[derive(Iden)]
-enum Trigger {
+enum Triggers {
     Table,
     Id,
     Description,
@@ -157,7 +157,7 @@ enum HormoneTrigger {
 }
 
 #[derive(Iden)]
-enum Description {
+enum Descriptions {
     Table,
     Id,
     Description,
