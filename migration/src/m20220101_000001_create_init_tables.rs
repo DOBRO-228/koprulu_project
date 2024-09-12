@@ -42,8 +42,16 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Descriptions::Description).string().not_null())
-                    .col(ColumnDef::new(Descriptions::MetaDescription).string().null())
+                    .col(
+                        ColumnDef::new(Descriptions::Description)
+                            .string()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Descriptions::MetaDescription)
+                            .string()
+                            .null(),
+                    )
                     .col(ColumnDef::new(Descriptions::InExcess).string().null())
                     .col(ColumnDef::new(Descriptions::InNorm).string().null())
                     .col(ColumnDef::new(Descriptions::InDeficiency).string().null())

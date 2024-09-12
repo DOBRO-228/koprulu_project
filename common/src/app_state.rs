@@ -1,9 +1,9 @@
+use crate::routes::Routes;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 use std::env;
 use std::sync::Arc;
 use std::time::Duration;
 use tera::Tera;
-use crate::routes::Routes;
 
 #[derive(Clone)]
 pub struct AppState {
