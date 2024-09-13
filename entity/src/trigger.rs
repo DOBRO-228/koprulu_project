@@ -1,4 +1,5 @@
 use sea_orm::entity::prelude::*;
+use common::traits::HasEntityName;
 
 #[derive(Clone, Debug, DeriveEntityModel)]
 #[sea_orm(table_name = "triggers")]
@@ -26,6 +27,6 @@ impl Related<super::HormoneEntity> for Entity {
 
 impl ActiveModelBehavior for ActiveModel {}
 
-impl Model {
-    pub const ENTITY_NAME: &'static str = "Trigger";
+impl HasEntityName for Model {
+    const ENTITY_NAME: &'static str = "Trigger";
 }

@@ -9,6 +9,7 @@ name = "entity"
 path = "src/lib.rs"
 
 [dependencies]
+common = { path = "../common" }
 axum = "0.7.5"
 async-std = { version = "1", features = ["attributes", "tokio1"] }
 sea-orm = { version = "1.0.0-rc.5", features = ["macros", "runtime-tokio-rustls"] }

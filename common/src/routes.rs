@@ -1,6 +1,6 @@
 #[derive(serde::Serialize)]
 pub struct Routes {
-    // Template handlers
+    // Template handler
     pub static_files: &'static str,
     pub main_page: &'static str,
     pub knowledge_base: &'static str,

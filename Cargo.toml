@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = [".", "entity", "migration", "service", "api", "handlers", "common"]
+members = [".", "entity", "migration", "service", "api", "handler", "common"]
 
 [dependencies]
 axum = "0.7.5"
@@ -23,6 +23,6 @@ hyper = "1.4.1"
 
 api = { path = "api" }
 entity = { path = "entity" }
-handlers = { path = "handlers" }
+handlers = { path = "handler" }
 service = { path = "service" }
 common = { path = "common" }

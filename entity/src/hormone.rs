@@ -1,6 +1,8 @@
 use sea_orm::entity::prelude::*;
+use serde::{Deserialize, Serialize};
+use common::traits::HasEntityName;
 
-#[derive(EnumIter, DeriveActiveEnum, Clone, Debug, PartialEq, Eq)]
+#[derive(EnumIter, DeriveActiveEnum, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[sea_orm(rs_type = "String", db_type = "String(StringLen::None)")]
 pub enum HormoneType {
     #[sea_orm(string_value = "Sexual")]
@@ -13,7 +15,7 @@ pub enum HormoneType {
     Catecholamine,
 }
 
-#[derive(Clone, Debug, DeriveEntityModel)]
+#[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "hormones")]
 pub struct Model {
     #[sea_orm(primary_key)]
@@ -53,6 +55,6 @@ impl Related<super::description::Entity> for Entity {
 
 impl ActiveModelBehavior for ActiveModel {}
 
-impl Model {
-    pub const ENTITY_NAME: &'static str = "Hormone";
+impl HasEntityName for Model {
+    const ENTITY_NAME: &'static str = "Hormone";
 }
