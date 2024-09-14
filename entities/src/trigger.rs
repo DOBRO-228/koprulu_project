@@ -1,5 +1,5 @@
-use sea_orm::entity::prelude::*;
 use common::traits::HasEntityName;
+use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, DeriveEntityModel)]
 #[sea_orm(table_name = "triggers")]

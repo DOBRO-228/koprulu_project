@@ -1,6 +1,6 @@
+use common::traits::HasEntityName;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-use common::traits::HasEntityName;
 
 #[derive(EnumIter, DeriveActiveEnum, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[sea_orm(rs_type = "String", db_type = "String(StringLen::None)")]

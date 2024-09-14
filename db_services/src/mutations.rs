@@ -1,12 +1,9 @@
 use super::queries::Queries;
 use ::entity::{
-    description,
-    description::Entity as Description,
-    hormone,
-    hormone::Entity as Hormone,
+    description, description::Entity as Description, hormone, hormone::Entity as Hormone,
 };
-use sea_orm::*;
 use common::traits::HasEntityName;
+use sea_orm::*;
 
 pub struct Mutations;
 
@@ -35,7 +32,7 @@ impl Mutations {
         Ok(affected_rows)
     }
 
-    // Generic method to create an entity
+    // Generic method to create an entities
     pub async fn create_entity<E>(db: &DbConn, form_data: E::Model) -> Result<E::ActiveModel, DbErr>
     where
         E: EntityTrait,
@@ -47,7 +44,7 @@ impl Mutations {
         Ok(inserted_entity)
     }
 
-    // Generic method to update an entity by ID
+    // Generic method to update an entities by ID
     pub async fn update_entity_by_id<E>(
         db: &DbConn,
         id: i32,
@@ -67,7 +64,7 @@ impl Mutations {
             Ok(updated_entity)
         } else {
             Err(DbErr::RecordNotFound(format!(
-                "{} with id '{}' not found",
+                "'{}' with id '{}' not found",
                 E::Model::ENTITY_NAME,
                 id
             )))
@@ -117,7 +114,7 @@ impl Mutations {
             )))
         }
     }
-    
+
     pub async fn create_hormone(
         db: &DbConn,
         form_data: hormone::Model,
@@ -128,8 +125,8 @@ impl Mutations {
             description_id: Set(form_data.description_id.to_owned()),
             ..Default::default()
         }
-            .save(db)
-            .await?;
+        .save(db)
+        .await?;
         Ok(updated_hormone)
     }
 
@@ -147,8 +144,8 @@ impl Mutations {
                 hormone_type: Set(form_data.hormone_type.to_owned()),
                 description_id: Set(form_data.description_id.to_owned()),
             }
-                .update(db)
-                .await?;
+            .update(db)
+            .await?;
             Ok(updated_description)
         } else {
             Err(DbErr::RecordNotFound(format!(

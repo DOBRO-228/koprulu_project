@@ -324,7 +324,7 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap dom/event-handler.js
+   * Bootstrap dom/event-template_handlers.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -409,8 +409,8 @@
     }
     let [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
 
-    // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
-    // this prevents the handler from being dispatched the same way as mouseover or mouseout does
+    // in case of mouseenter or mouseleave wrap the template_handlers within a function that checks for its DOM position
+    // this prevents the template_handlers from being dispatched the same way as mouseover or mouseout does
     if (originalTypeEvent in customEvents) {
       const wrapFunction = fn => {
         return function (event) {
@@ -475,7 +475,7 @@
       const storeElementEvent = events[typeEvent] || {};
       const isNamespace = originalTypeEvent.startsWith('.');
       if (typeof callable !== 'undefined') {
-        // Simplest case: handler is passed, remove that listener ONLY.
+        // Simplest case: template_handlers is passed, remove that listener ONLY.
         if (!Object.keys(storeElementEvent).length) {
           return;
         }

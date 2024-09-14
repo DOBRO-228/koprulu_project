@@ -1,10 +1,10 @@
+pub mod activities;
 pub mod description;
+pub mod food;
 pub mod hormone;
 pub mod hormone_trigger;
-pub mod trigger;
 pub mod supplement;
-pub mod food;
-pub mod activities;
+pub mod trigger;
 
 pub use description::Entity as DescriptionEntity;
 pub use hormone::Entity as HormoneEntity;

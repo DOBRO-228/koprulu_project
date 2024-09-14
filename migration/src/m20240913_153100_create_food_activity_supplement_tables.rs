@@ -8,7 +8,6 @@ impl MigrationName for Migration {
     }
 }
 
-
 #[derive(Iden)]
 enum Activities {
     Table,
@@ -33,7 +32,6 @@ enum Supplements {
     Description,
     DosageAndAdministration,
 }
-
 
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
@@ -70,16 +68,8 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(
-                        ColumnDef::new(Foods::Name)
-                            .string()
-                            .not_null(),
-                    )
-                    .col(
-                        ColumnDef::new(Foods::Description)
-                            .string()
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(Foods::Name).string().not_null())
+                    .col(ColumnDef::new(Foods::Description).string().not_null())
                     .to_owned(),
             )
             .await?;
@@ -98,7 +88,11 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Supplements::Name).string().not_null())
                     .col(ColumnDef::new(Supplements::Description).string().not_null())
-                    .col(ColumnDef::new(Supplements::DosageAndAdministration).string().null())
+                    .col(
+                        ColumnDef::new(Supplements::DosageAndAdministration)
+                            .string()
+                            .null(),
+                    )
                     .to_owned(),
             )
             .await

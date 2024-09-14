@@ -9,9 +9,9 @@ name = "api"
 path = "src/lib.rs"
 
 [dependencies]
-service = { path = "../service" }
+service = { path = "../db_services" }
 common = { path = "../common" }
-entity = { path = "../entity" }
+entity = { path = "../entities" }
 migration = { path = "../migration" }
 tokio = { version = "1.34.0", features = ["full"] }
 axum = "0.7.5"

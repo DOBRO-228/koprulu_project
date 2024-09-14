@@ -1,6 +1,6 @@
+use common::traits::HasEntityName;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-use common::traits::HasEntityName;
 
 #[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel, Serialize, Deserialize)]
 #[sea_orm(table_name = "supplements")]
@@ -14,8 +14,7 @@ pub struct Model {
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {
-}
+pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
 

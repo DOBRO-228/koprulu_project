@@ -1,4 +1,3 @@
-use crate::routes::Routes;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 use std::env;
 use std::sync::Arc;
@@ -9,18 +8,15 @@ use tera::Tera;
 pub struct AppState {
     pub db: Arc<DatabaseConnection>,
     pub templates: Arc<Tera>,
-    pub routes: Arc<Routes>,
 }
 
 pub async fn init_app_state() -> AppState {
     let db = setup_db().await;
     let templates = setup_template_rendering();
-    let routes = Routes::default();
 
     AppState {
         db: Arc::new(db),
         templates: Arc::new(templates),
-        routes: Arc::new(routes),
     }
 }
 
@@ -39,7 +35,7 @@ async fn setup_db() -> DatabaseConnection {
 }
 
 fn setup_template_rendering() -> Tera {
-    match Tera::new("templates/**/*.html") {
+    match Tera::new("templates/templates/**/*.html") {
         Ok(t) => t,
         Err(e) => {
             println!("Parsing error(s): {:?}", e);

@@ -9,7 +9,7 @@ name = "service"
 path = "src/lib.rs"
 
 [dependencies]
-entity = { path = "../entity" }
+entity = { path = "../entities" }
 common = { path = "../common" }
 
 [dependencies.sea-orm]

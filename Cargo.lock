@@ -1249,22 +1249,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "handlers"
-version = "0.1.0"
-dependencies = [
- "axum",
- "common",
- "entity",
- "migration",
- "sea-orm",
- "serde",
- "serde_json",
- "service",
- "tera",
- "tokio",
-]
-
-[[package]]
 name = "hashbrown"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1574,12 +1558,12 @@ dependencies = [
  "dotenv",
  "entity",
  "env_logger",
- "handlers",
  "hyper",
  "sea-orm",
  "serde",
  "serde_json",
  "service",
+ "templates",
  "tera",
  "tokio",
  "tower 0.5.0",
@@ -3275,6 +3259,22 @@ dependencies = [
  "once_cell",
  "rustix 0.38.34",
  "windows-sys 0.59.0",
+]
+
+[[package]]
+name = "templates"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "common",
+ "entity",
+ "migration",
+ "sea-orm",
+ "serde",
+ "serde_json",
+ "service",
+ "tera",
+ "tokio",
 ]
 
 [[package]]
