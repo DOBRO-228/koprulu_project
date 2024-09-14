@@ -4,59 +4,46 @@ use axum::Json;
 use log::error;
 use sea_orm::DbErr;
 use std::fmt;
+use serde::Serialize;
+use serde_json::json;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub enum AppError {
-    DbError(DbErr),
-    OtherError(String),
-}
-
-#[derive(Debug, serde::Serialize)]
-pub struct ErrorResponse {
-    pub error_message: String,
+    DatabaseError(String),
+    NotFound(String),
+    ValidationError(String),
 }
 
 impl fmt::Display for AppError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            AppError::DbError(e) => write!(f, "Database error: {}", e),
-            AppError::OtherError(e) => write!(f, "Error: {}", e),
-        }
-    }
-}
-
-impl From<DbErr> for AppError {
-    fn from(err: DbErr) -> Self {
-        // Log the error centrally
-        error!("{}", err);
-        AppError::DbError(err)
-    }
-}
-
-impl From<AppError> for (StatusCode, ErrorResponse) {
-    fn from(err: AppError) -> Self {
-        match err {
-            AppError::DbError(_) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                ErrorResponse {
-                    error_message: err.to_string(),
-                },
-            ),
-            AppError::OtherError(_) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                ErrorResponse {
-                    error_message: err.to_string(),
-                },
-            ),
+            AppError::DatabaseError(msg) => write!(f, "Database error: {}", msg),
+            AppError::NotFound(msg) => write!(f, "Not found: {}", msg),
+            AppError::ValidationError(msg) => write!(f, "Validation error: {}", msg),
+            // Handle other variants
         }
     }
 }
 
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
-        let error_response = ErrorResponse {
-            error_message: self.to_string(),
+        let status_code = match &self {
+            AppError::DatabaseError(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            AppError::NotFound(_) => StatusCode::NOT_FOUND,
+            AppError::ValidationError(_) => StatusCode::BAD_REQUEST,
         };
-        (StatusCode::INTERNAL_SERVER_ERROR, Json(error_response)).into_response()
+        let error_response = Json(json!({
+            "error": self.to_string()
+        }));
+
+        (status_code, error_response).into_response()
+    }
+}
+
+impl From<DbErr> for AppError {
+    fn from(e: DbErr) -> Self {
+        let error = e.to_string();
+        error!("{}", error);
+        AppError::DatabaseError(error)
     }
 }

@@ -11,6 +11,7 @@ path = "src/lib.rs"
 [dependencies]
 entity = { path = "../entities" }
 common = { path = "../common" }
+log = "0.4.22"
 
 [dependencies.sea-orm]
 version = "1.0.0-rc.5" # sea-orm version
