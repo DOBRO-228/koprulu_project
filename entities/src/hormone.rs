@@ -22,19 +22,17 @@ pub struct Model {
     pub id: i32,
     pub name: String,
     pub hormone_type: HormoneType,
-    pub description_id: i32,
+    pub description: String,
+    pub meta_description: Option<String>,
+    pub in_excess: Option<String>,
+    pub in_norm: Option<String>,
+    pub in_deficiency: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
     #[sea_orm(has_many = "super::HormoneTriggerEntity")]
     HormoneTrigger,
-    #[sea_orm(
-        belongs_to = "super::DescriptionEntity",
-        from = "Column::DescriptionId",
-        to = "super::description::Column::Id"
-    )]
-    Description,
 }
 
 impl Related<super::TriggerEntity> for Entity {
@@ -44,12 +42,6 @@ impl Related<super::TriggerEntity> for Entity {
 
     fn via() -> Option<RelationDef> {
         Some(super::hormone_trigger::Relation::Hormone.def().rev())
-    }
-}
-
-impl Related<super::description::Entity> for Entity {
-    fn to() -> RelationDef {
-        Relation::Description.def()
     }
 }
 
