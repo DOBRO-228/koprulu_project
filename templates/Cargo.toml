@@ -8,7 +8,6 @@ name = "templates"
 path = "src/lib.rs"
 
 [dependencies]
-service = { path = "../db_services" }
 tokio = { version = "1.34.0", features = ["full"] }
 axum = "0.7.5"
 serde = "1.0.193"

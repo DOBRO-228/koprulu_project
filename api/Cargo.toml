@@ -9,7 +9,6 @@ name = "api"
 path = "src/lib.rs"
 
 [dependencies]
-service = { path = "../db_services" }
 common = { path = "../common" }
 entity = { path = "../entities" }
 migration = { path = "../migration" }

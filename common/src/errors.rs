@@ -3,9 +3,9 @@ use axum::response::{IntoResponse, Response};
 use axum::Json;
 use log::error;
 use sea_orm::DbErr;
-use std::fmt;
 use serde::Serialize;
 use serde_json::json;
+use std::fmt;
 
 #[derive(Debug, Serialize)]
 pub enum AppError {
@@ -43,7 +43,7 @@ impl IntoResponse for AppError {
 impl From<DbErr> for AppError {
     fn from(e: DbErr) -> Self {
         let error = e.to_string();
-        error!("{}", error);
+        error!("{:?}, {}", e, error);
         AppError::DatabaseError(error)
     }
 }

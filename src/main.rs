@@ -1,14 +1,13 @@
-
 use common::app_state::init_app_state;
 
 use dotenv::dotenv;
 
 use api::routes::get_api_routes;
 use axum::Router;
+use templates::routes::get_template_routes;
 use tower::ServiceBuilder;
 use tower_http::services::ServeDir;
 use tower_http::trace::TraceLayer;
-use templates::routes::get_template_routes;
 
 #[tokio::main]
 async fn main() {

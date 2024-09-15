@@ -4,15 +4,13 @@ use axum::{extract::State, Json};
 use common::app_state::AppState;
 use common::errors::AppError;
 use entity::description::{
-    self, ActiveModel as DescriptionActiveModel, Entity as DescriptionEntity,
-    Model as DescriptionModel,
+    ActiveModel as DescriptionActiveModel, Entity as DescriptionEntity, Model as DescriptionModel,
+    Column as DescriptionColumn,
 };
 use sea_orm::ActiveValue::Set;
-use sea_orm::TryIntoModel;
+use sea_orm::{ActiveModelTrait, DbErr, EntityTrait, QueryOrder, TryIntoModel};
 use serde::Deserialize;
 use serde_json::json;
-use service::Mutations;
-use service::Queries;
 
 #[derive(Debug, Deserialize)]
 pub struct DescriptionInput {
@@ -28,7 +26,8 @@ pub async fn get_all_descriptions(
 ) -> Result<(StatusCode, Json<Vec<DescriptionModel>>), AppError> {
     let db = &*state.db;
 
-    let descriptions = Queries::get_all_entities::<description::Entity>(db)
+    let descriptions = DescriptionEntity::find().order_by_asc(DescriptionColumn::Id)
+        .all(db)
         .await
         .map_err(AppError::from)?;
     Ok((StatusCode::OK, Json(descriptions)))
@@ -40,7 +39,8 @@ pub async fn get_description(
 ) -> Result<(StatusCode, Json<serde_json::Value>), AppError> {
     let db = &*state.db;
 
-    let description = Queries::get_entity_by_id::<description::Entity>(db, id)
+    let description = DescriptionEntity::find_by_id(id)
+        .one(db)
         .await
         .map_err(AppError::from)?;
     if let Some(description) = description {
@@ -53,10 +53,10 @@ pub async fn get_description(
 pub async fn create_description(
     State(state): State<AppState>,
     Json(input): Json<DescriptionInput>,
-) -> Result<(StatusCode, Json<description::Model>), AppError> {
-    let db = &state.db;
+) -> Result<(StatusCode, Json<DescriptionModel>), AppError> {
+    let db = &*state.db;
 
-    let form_data = DescriptionActiveModel {
+    let new_description = DescriptionActiveModel {
         description: Set(input.description),
         meta_description: Set(input.meta_description),
         in_excess: Set(input.in_excess),
@@ -65,39 +65,36 @@ pub async fn create_description(
         ..Default::default()
     };
 
-    let new_active_model_description = Mutations::create_entity::<DescriptionEntity>(db, form_data)
+    let created_description = new_description
+        .save(db)
         .await
-        .map_err(AppError::from)?;
-    let new_model_description = new_active_model_description
+        .map_err(AppError::from)?
         .try_into_model()
         .map_err(AppError::from)?;
-    Ok((StatusCode::CREATED, Json(new_model_description)))
+    Ok((StatusCode::CREATED, Json(created_description)))
 }
 
 pub async fn update_description(
     State(state): State<AppState>,
     Path(id): Path<i32>,
-    Json(input): Json<DescriptionModel>,
-) -> Result<(StatusCode, Json<description::Model>), AppError> {
-    let db = &state.db;
+    Json(input): Json<DescriptionInput>,
+) -> Result<(StatusCode, Json<DescriptionModel>), AppError> {
+    let db = &*state.db;
 
-    let form_data = DescriptionModel {
-        id,
-        description: input.description,
-        meta_description: input.meta_description,
-        in_excess: input.in_excess,
-        in_norm: input.in_norm,
-        in_deficiency: input.in_deficiency,
+    let new_description = DescriptionActiveModel {
+        id: Set(id),
+        description: Set(input.description),
+        meta_description: Set(input.meta_description),
+        in_excess: Set(input.in_excess),
+        in_norm: Set(input.in_norm),
+        in_deficiency: Set(input.in_deficiency),
     };
 
-    let updated_active_model_description =
-        Mutations::update_entity::<DescriptionEntity>(db, form_data)
-            .await
-            .map_err(AppError::from)?;
-    let updated_model_description = updated_active_model_description
-        .try_into_model()
-        .map_err(AppError::from)?;
-    Ok((StatusCode::OK, Json(updated_model_description)))
+    let updated_description = new_description.update(db).await.map_err(|e| match e {
+        DbErr::RecordNotFound(msg) => AppError::ValidationError(msg.to_string()),
+        other_err => AppError::from(other_err),
+    })?;
+    Ok((StatusCode::OK, Json(updated_description)))
 }
 
 pub async fn delete_description(
@@ -105,10 +102,11 @@ pub async fn delete_description(
     Path(id): Path<i32>,
 ) -> Result<StatusCode, AppError> {
     let db = &*state.db;
-
-    Mutations::delete_entity_by_id::<DescriptionEntity>(db, id)
-        .await
-        .map_err(AppError::from)?;
+    let description = DescriptionActiveModel {
+        id: Set(id),
+        ..Default::default()
+    };
+    description.delete(db).await.map_err(AppError::from)?;
     Ok(StatusCode::NO_CONTENT)
 }
 
@@ -117,7 +115,8 @@ pub async fn delete_all_descriptions(
 ) -> Result<StatusCode, AppError> {
     let db = &*state.db;
 
-    Mutations::delete_all_entities::<description::Entity>(db)
+    DescriptionEntity::delete_many()
+        .exec(db)
         .await
         .map_err(AppError::from)?;
     Ok(StatusCode::NO_CONTENT)
