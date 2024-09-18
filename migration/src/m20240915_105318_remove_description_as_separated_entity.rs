@@ -8,7 +8,7 @@ impl MigrationName for Migration {
     }
 }
 
-
+#[allow(dead_code)]
 #[derive(Iden)]
 enum Hormones {
     Table,
@@ -84,7 +84,11 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Descriptions::Description).string().null())
-                    .col(ColumnDef::new(Descriptions::MetaDescription).string().null())
+                    .col(
+                        ColumnDef::new(Descriptions::MetaDescription)
+                            .string()
+                            .null(),
+                    )
                     .col(ColumnDef::new(Descriptions::InExcess).string().null())
                     .col(ColumnDef::new(Descriptions::InNorm).string().null())
                     .col(ColumnDef::new(Descriptions::InDeficiency).string().null())

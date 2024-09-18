@@ -3,23 +3,23 @@ use axum::http::StatusCode;
 use axum::{extract::State, Json};
 use common::app_state::AppState;
 use common::errors::AppError;
-use entity::trigger::{
-    ActiveModel as TriggerActiveModel, Column as TriggerColumn, Entity as TriggerEntity,
-    Model as TriggerModel,
+use entity::supplement::{
+    ActiveModel as SportActiveModel, Column as SportColumn, Entity as SportEntity,
+    Model as SportModel,
 };
 use sea_orm::ActiveValue::Set;
 use sea_orm::{EntityTrait, QueryOrder};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-pub struct TriggerInput {
+pub struct SportInput {
     pub name: String,
     pub description: String,
 }
 
-impl TriggerInput {
-    pub fn into_active_model(self) -> TriggerActiveModel {
-        TriggerActiveModel {
+impl SportInput {
+    pub fn into_active_model(self) -> SportActiveModel {
+        SportActiveModel {
             name: Set(self.name),
             description: Set(self.description),
             ..Default::default()
@@ -28,10 +28,10 @@ impl TriggerInput {
 }
 
 generate_base_crud_handlers!(
-    trigger,
-    TriggerEntity,
-    TriggerModel,
-    TriggerInput,
-    TriggerActiveModel,
-    TriggerColumn::Id
+    sport,
+    SportEntity,
+    SportModel,
+    SportInput,
+    SportActiveModel,
+    SportColumn::Id
 );

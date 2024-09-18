@@ -9,6 +9,7 @@ name = "api"
 path = "src/lib.rs"
 
 [dependencies]
+async-trait = "0.1"
 common = { path = "../common" }
 entity = { path = "../entities" }
 migration = { path = "../migration" }
@@ -24,6 +25,7 @@ serde_json = "1.0.108"
 tera = "1.19.1"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 log = "0.4.22"
+paste = "1.0.15"
 
 [dependencies.sea-orm]
 version = "1.0.0-rc.5" # sea-orm version

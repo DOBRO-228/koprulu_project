@@ -4,15 +4,14 @@ use serde::{Deserialize, Serialize};
 
 #[derive(EnumIter, DeriveActiveEnum, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[sea_orm(rs_type = "String", db_type = "String(StringLen::None)")]
+#[serde(rename_all = "snake_case")]
 pub enum HormoneType {
-    #[sea_orm(string_value = "Sexual")]
-    Sexual,
-    #[sea_orm(string_value = "Neurotransmitter")]
-    Neurotransmitter,
-    #[sea_orm(string_value = "Corticosteroid")]
-    Corticosteroid,
-    #[sea_orm(string_value = "Catecholamine")]
-    Catecholamine,
+    #[sea_orm(string_value = "amino_acid")]
+    AminoAcid,
+    #[sea_orm(string_value = "protein_peptide")]
+    ProteinPeptide,
+    #[sea_orm(string_value = "steroid")]
+    Steroid,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel, Serialize, Deserialize)]
